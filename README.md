@@ -1,6 +1,6 @@
 freeDPPserver
 -----
-.net core based webserver with GUI for online-maintenance of your DPP
+contains the code for the open source DPP server system
 
 - find details here:
 https://github.com/OttoHandle/freeDPP/blob/main/FUNCTIONALITY.md
