@@ -107,7 +107,7 @@ dpp provider according EN 18222 and EN 18223 standards, applicable with link as 
 
 | Field | Specifier | Example |
 | :--- | :--- | :--- |
-|global Trade Item Number G-TIN13 | (01) | 09524000059109 |
+|global Trade Item Number GTIN-13 or GTIN-14 - any identifier length possible | (01) | 09524000059109 |
 | variant | (22) | 2A |
 | Batch identifier |  (10) | ABC123 |
 | Serial Number (Unique item-level identifier) | (21)	| 12345XYZ |
@@ -116,7 +116,8 @@ dpp provider according EN 18222 and EN 18223 standards, applicable with link as 
 URL scheme https://example.com/01/GTIN/22/VARIANT/10/BATCH/21/SERIALNR?11=date
 
 Full Example https://example.com/01/09524000059109/22/2A/10/ABC123/21/12345XYZ?11=251121
-								
+
+Note: DPP Identifier is definied in 18219 as full path including all identifiers, but the DPP server can also respond to partial paths, e.g. only GTIN-13 or GTIN-14, or GTIN-13 with variant and batch number.								
 
 ## Examples
 

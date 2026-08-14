@@ -96,7 +96,7 @@ namespace freeDPPapi
             myModel.lsfreeDPPdb = AssistText.FuncQuerywert(AssistInclude.FuncGetAppsetting(myEnv, "Global:DppDB"), "dpp");
             myModel.lsLogDB = AssistText.FuncQuerywert(AssistInclude.FuncGetAppsetting(myEnv, "Global:logDB"), myModel.lsfreeDPPdb);
             string lsLogBadBot = AssistText.FuncQuerywert(AssistInclude.FuncGetAppsetting(myEnv, "Global:logbadbot"), "false").ToLower();
-            myModel.lbLogBadBot = (lsLogBadBot == "true") ? true : false; //oh240626
+            myModel.lbLogBadBot = (lsLogBadBot == "true") ? true : false; 
             myModel.lsPimDB = AssistText.FuncQuerywert(AssistInclude.FuncGetAppsetting(myEnv, "Global:pimDB"), myModel.lsfreeDPPdb);
             myModel.lsMandantDB = AssistText.FuncQuerywert(AssistInclude.FuncGetAppsetting(myEnv, "Global:mandantDB"), myModel.lsfreeDPPdb);
             myModel.dictUri = AssistText.FuncQuerywert(AssistInclude.FuncGetAppsetting(myEnv, "Global:dictUri"), "https://www.freedpp.eu/dict/");
@@ -116,8 +116,6 @@ namespace freeDPPapi
             if (lbReadonly) { sSQLconnection = J.SQLconnectionReadonly; }
 
             SqlConnection objConnection = new SqlConnection("server=" + sSQLserverIP + ";" + sSQLconnection);
-            //? hier? objConnection.Open();
-            // here try to open database or switch to alternative server
             return objConnection;
         }
 
@@ -179,7 +177,7 @@ namespace freeDPPapi
             adapter.SelectCommand.CommandTimeout = J.SqlCommandTimeout;
             if (lsSQLquery.IndexOf("@param") > 0)
             {
-                // param1 bis param7
+                // param1 - param7
                 string[] laParamList = { param1, param2, param3, param4, param5, param6, param7 };
                 for (int lij = 1; lij <= 7; lij++)
                 {
@@ -281,7 +279,7 @@ namespace freeDPPapi
                 }
             }
             //Console.WriteLine(str);
-            llRequestHeader.cookieConsent = AssistText.FuncQuerywert(llRequestHeader.Cookies["c"], ""); // llRequestHeader.cookieConsent
+            llRequestHeader.cookieConsent = AssistText.FuncQuerywert(llRequestHeader.Cookies["c"], ""); 
             llRequestHeader.serverName = AssistText.FuncQuerywert(llRequestHeader.serverName, "");
             llRequestHeader.serverPort = Convert.ToInt32(AssistText.FuncQuerywert(llRequestHeader.serverPort.ToString(), "80"));
             llRequestHeader.Referer = AssistText.FuncQuerywert(llRequestHeader.Referer, "");
@@ -291,9 +289,6 @@ namespace freeDPPapi
             llRequestHeader.Path = llRequestHeader.Path;
             llRequestHeader.FullPath += llRequestHeader.Path;
 
-
-
-            // llRequestHeader.QueryString = lsvQueryString;
             return llRequestHeader;
         }
 
@@ -358,8 +353,7 @@ namespace freeDPPapi
             //      Uri.EscapeDataString("https://localhost:7032/v1/dpps/?.sd=meinefehler")	"https%3A%2F%2Flocalhost%3A7032%2Fv1%2Fdpps%2F%3F.sd%3Dmeinefehler"	string
 
             if (true)
-            {  //oh260804 wenn dann andersrum, oder? wir wollen die unescaped variante
-               // J.format = Uri.EscapeDataString(J.format);
+            {   // J.format = Uri.EscapeDataString(J.format);
                 J.route1 = Uri.UnescapeDataString(J.route1);
                 J.route2 = Uri.UnescapeDataString(J.route2);
                 J.route3 = Uri.UnescapeDataString(J.route3);
@@ -368,7 +362,7 @@ namespace freeDPPapi
                 J.route6 = Uri.UnescapeDataString(J.route6);
                 J.route7 = Uri.UnescapeDataString(J.route7);
             }
-            //oh260704 Frage --> Timon hier auch die ?query=parameter prüfen und übernehmen?
+            //oh260704 also take ?query=parameter here?
             //                   any queryparameter in key-value store, without XSS
             var queryParams = J.requestHeader.QueryString;
             foreach (var param in queryParams)
@@ -446,22 +440,19 @@ namespace freeDPPapi
         {
             // HttpContextAccessor.HttpContext.Response.ContentType = lsMimeType; 
             HttpContextAccessor.HttpContext.Response.Clear(); //   Current.Response.Clear();
-            //besser nicht, wenn der nicht passt dann bricht der browser ab und wir brauchens eh nur für HEAD
-            //HttpContextAccessor.HttpContext.Response.Headers.Add("Content-Length", lsOutput.Length.ToString()+5); +0 ist zu kurz, +5 bricht aber ab ist vermutlich zu lang
             HttpContextAccessor.HttpContext.Response.Headers.Add("Content-Type", lsMimeType);
             if (lsMimeType.StartsWith("text/html"))
             {  // possible: allow, deny, sameorigin
                 string lsXFRAME = AssistText.FuncQuerywert(AssistInclude.FuncGetAppsetting(jT._env, "Global:XFRAME"), "sameorigin");
                 // HttpContextAccessor.HttpContext.Response.Headers.Add("X-Frame-Options", "SAMEORIGIN"); // nicht in andere Webs als iframe einbinden lassen sonst DENY
-                if (lsXFRAME.ToLower() != "allow") HttpContextAccessor.HttpContext.Response.Headers.Add("X-Frame-Options", lsXFRAME);       // könnte ein Problem mit youtube machen -> dann ins DICT
+                if (lsXFRAME.ToLower() != "allow") HttpContextAccessor.HttpContext.Response.Headers.Add("X-Frame-Options", lsXFRAME); 
             }
             HttpContextAccessor.HttpContext.Response.Headers.Add("X-XSS-Protection", " 1; mode=block");
 
-            // x-powered-by jubacon in iis http-header einstellen https://stackoverflow.com/questions/45882715/how-to-remove-x-powered-by-header-in-net-core-2-0
-            // test für authentification header - bringt keinen Vorteil                   Google Analytics ausschalten: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Referrer-Policy
+            // x-powered-by freeDPP in iis http-header einstellen https://stackoverflow.com/questions/45882715/how-to-remove-x-powered-by-header-in-net-core-2-0
             // HttpContextAccessor.HttpContext.Response.Headers.Add("Bearer", "Token");                                 https://de.wikipedia.org/wiki/Liste_der_HTTP-Headerfelder -> Referrer-Policy
 
-            // für dpp ist cache gar nicht gut
+            // no caching for DPP
             HttpContextAccessor.HttpContext.Response.Headers.Add("Cache-Control", "public, max-age=0");
 
 
@@ -478,22 +469,12 @@ namespace freeDPPapi
                 // nur wenn site https ist
                 // option.Secure = true; 
 
-                HttpContextAccessor.HttpContext.Response.Cookies.Append("j", lsStoreCookie, option); // das muss hier stehen sonst wirds nicht übertragen
+                HttpContextAccessor.HttpContext.Response.Cookies.Append("j", lsStoreCookie, option);
             }
-            //if (lsMimeType.Contains("application/json") == true)
-            //{ solve 5MB Problem no chance...
-            //    //  HttpContextAccessor.HttpContext.Response.Headers.Add("Content-Length", "50000000");
-            //    //  HttpContextAccessor.HttpContext.Response.ContentLength = lsOutput.Length;
-            //    byte[] bytes = Encoding.Default.GetBytes(lsOutput);
-            //    string result = System.Text.Encoding.UTF8.GetString(bytes);
-            //    oh240126
-            //    statt HttpContextAccessor.HttpContext.Response.WriteAsync(lsOutput);// als utf-8
-            //    wegen 5MB Hürde https://github.com/dotnet/aspnetcore/issues/45154
 
             var pipeWriter = HttpContextAccessor.HttpContext.Response.BodyWriter;
             byte[] bytes = Encoding.Default.GetBytes(lsOutput);
             pipeWriter.WriteAsync(bytes);
-            // jubaAssist.assistText.FuncWriteTextfile(lsOutput, "c:\\jubacon\\161.txt");
         }
         public void FuncSetContextHeader404(int liErrorcode = 404, string lsTargetUrl = "") // "text/html" creates 406 ERROR, handled seperately...
         {

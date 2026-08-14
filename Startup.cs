@@ -61,7 +61,7 @@ namespace freeDPPapi
             options.IdleTimeout = TimeSpan.FromSeconds(3600); // session cleared after time without click 3600 -> one hour no click -> session cleared
             options.Cookie.HttpOnly = true;
             options.Cookie.IsEssential = true;
-            options.Cookie.Name = "jubaCookie";
+            options.Cookie.Name = "freeDppCookie";
         });
 
             // for IP-adress, call only possible in controller probably because of pipeline
@@ -73,11 +73,8 @@ namespace freeDPPapi
 
         // [inject] dependency injection for read of Header 
         services.AddHttpContextAccessor();
-            // alternative: services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>(); ?
-
-
+        // alternative: services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>(); ?
         //services.AddHttpsRedirection(); needs to be implemented correctly 
-
     }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -97,8 +94,7 @@ namespace freeDPPapi
             Config = builder.Build();
 
             //  app.UseHttpsRedirection(); no, done below in middleware, because we need to read the mandant settings from database first
-            app.UseStaticFiles(); // from wwwroot, should be shut off in production, but for testing we need it, and also for CSS and JS files in wwwroot, see below for CSS and JS files in wwwroot
-                                  // test form: http://test.jubacon.net/getfile/abauapp.txt
+            app.UseStaticFiles(); // from wwwroot,  for CSS and JS files in wwwroot, see below for CSS and JS files in wwwroot
 
             // implement own middleware to redirect to https if not already, but only if mandant settings require it
             // as early we can read metadata from server, we can check if redirect to https is needed, and if so, redirect to https://maindomain.com
@@ -106,11 +102,7 @@ namespace freeDPPapi
             app.Use(async (context, next) => {
                 // context.Response.Clear(); //   Current.Response.Clear();
                 // context.Response.Headers.Add("Content-Type", "text/css"); - but no output then, because next.Invoke() is not called
-                //await context.Response.WriteAsync("hello papa"); //- but no output then.
-                // doesnt work: string lsSQLserverIP = Config.GetConnectionString("Global:SQLserverIP");
-
-                // if (context.Request.Query.Keys.Contains("yourkey"))
-                if ((AssistInclude.GetAbsoluteUri(myHttpContextAccessor, "scheme") != "https")||1==2) //myJuba.HttpContextAccessor
+                if ((AssistInclude.GetAbsoluteUri(myHttpContextAccessor, "scheme") != "https")||1==2) 
                 {
                     // if not https, check if redirect to ssl is needed
 
