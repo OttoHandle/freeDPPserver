@@ -1,0 +1,347 @@
+/* ---------------------------------------------------------- */
+/* -------------------- General Settings -------------------- */
+/* ---------------------------------------------------------- */
+* {
+    box-sizing: border-box;
+}
+
+html {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    color: #2C2C2C;
+}
+
+body {
+    margin: 0 auto;
+    max-width: 1440px;
+    padding: 0 40px;
+}
+
+@media (max-width: 768px) {
+    body {
+        padding: 0 20px;
+    }
+}
+
+
+/* ----------------------------------------------- */
+/* -------------------- Logos -------------------- */
+/* ----------------------------------------------- */
+.dppLogosWrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-bottom: 30px;
+    margin-top: 20px;
+}
+
+.dppCompanyLogo, .dppFreeDppLogo {
+    width: 50%;
+    height: 80px;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.dppCompanyLogo {
+    background-image: url('/pic/companyLogo.svg');
+    background-position: top left;
+}
+
+.dppFreeDppLogo {
+    background-image: url('/pic/freeDppLogo.svg');
+    background-position: top right;
+}
+
+@media (max-width: 768px) {
+    .dppLogosWrapper {
+        margin-bottom: 20px;
+        margin-top: 10px;
+    }
+
+    .dppCompanyLogo, .dppFreeDppLogo {
+        height: 40px;
+    }
+}
+
+
+/* --------------------------------------------------- */
+/* -------------------- DPP Infos -------------------- */
+/* --------------------------------------------------- */
+.dppTopWrapper {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.dppTopLeft {
+    width: 33.33%;
+}
+
+.dppTopRight {
+    width: 66.66%;
+    padding-left: 30px;
+}
+
+.dppPicWrapper {
+    padding: 30px;
+    border: 1px solid #e6e7e8;
+}
+
+    .dppPicWrapper:has(.dppPic[src=""]) {
+        display: none;
+    }
+
+.dppPic {
+    display: block;
+    width: 100%;
+    max-height: 300px;
+    object-fit: scale-down;
+    object-position: center;
+}
+
+    .dppPic[src=""] {
+        display: none;
+    }
+
+.dppName {
+    margin-top: 0;
+}
+
+.dppInfo {
+    margin-bottom: 5px;
+}
+
+
+.dppBtn {
+    line-height: 1;
+    background-color: transparent;
+    border: 2px solid #E5E5E5;
+    border-radius: 8px;
+    padding: 8px 12px;
+    cursor: pointer;
+    font-size: 80%;
+    color: inherit;
+    text-decoration: none;
+    display: inline-block;
+    vertical-align: top;
+    margin-top: 5px;
+}
+
+
+@media (max-width: 768px) {
+    .dppTopWrapper {
+        margin-bottom: 10px;
+    }
+
+    .dppTopLeft, .dppTopRight {
+        width: 100%;
+    }
+
+    .dppPicWrapper {
+        margin-bottom: 20px;
+    }
+
+    .dppPic {
+        max-height: 200px;
+    }
+
+    .dppTopRight {
+        padding-left: 0;
+    }
+}
+
+
+
+/* ------------------------------------------------------ */
+/* -------------------- DPP Elements -------------------- */
+/* ------------------------------------------------------ */
+.dppElementsWrapper {
+    overflow: hidden;
+    background-color: #E5E5E5;
+    border-radius: 15px;
+    padding: 5px 15px;
+}
+
+.dppElement {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 10px 60px;
+    border-bottom: 2px solid #BFBFBF;
+    column-gap: 20px;
+    row-gap: 5px;
+}
+
+    .dppElement:last-of-type {
+        border-bottom: none;
+    }
+
+.dppElementName {
+    width: calc(33.33% - 10px);
+}
+
+.dppElementValue {
+    width: calc(66.66% - 10px);
+}
+
+@media (max-width: 1024px) {
+    .dppElement {
+        padding: 10px 40px;
+    }
+}
+
+@media (max-width: 768px) {
+    .dppElement {
+        padding: 10px 20px;
+    }
+}
+
+@media (max-width: 600px) {
+    .dppElement {
+        padding: 10px 10px;
+    }
+
+    .dppElementName, .dppElementValue {
+        width: 100%;
+    }
+
+    .dppElementName {
+        font-weight: bold;
+    }
+}
+
+
+/* ----- Collections ----- */
+.dppElements {
+    width: 100%;
+    list-style: none;
+    margin: 0;
+    padding-left: 40px;
+}
+
+.dppElementsWrapper > .dppElements {
+    padding-left: 0;
+}
+
+.dppElement.isCollection > .dppElements {
+    display: none;
+    width: 75%;
+    margin: 15px 0px;
+}
+
+.dppElement.open > .dppElements {
+    display: block;
+}
+
+.dppElement.isCollection {
+    display: block;
+    padding: 15px 0;
+}
+
+.dppElementsWrapper > .dppElements > .dppElement.isCollection {
+    border-color: #FFFFFF;
+}
+
+.dppElement.isCollection.open {
+    padding-bottom: 0;
+}
+
+.dppOpenElement {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    width: 100%;
+    padding-right: 100px;
+}
+
+.dppCollIcon {
+    width: 30px;
+    height: 30px;
+    background-size: contain;
+    background-position: top right;
+    background-repeat: no-repeat;
+}
+
+.dppOpenElement > .dppElementName {
+    font-weight: bold;
+    width: calc(100% - 60px - 20px);
+}
+
+.dppCollectionSwitch {
+    width: 30px;
+    aspect-ratio: 1;
+    border: none;
+    padding: 0;
+    background-color: transparent;
+    position: relative;
+}
+
+    .dppCollectionSwitch::after {
+        content: '';
+        position: absolute;
+        top: 6px;
+        left: 9px;
+        width: 10px;
+        aspect-ratio: 1;
+        border-bottom: 2px solid #2C2C2C;
+        border-right: 2px solid #2C2C2C;
+        transform: rotate(45deg);
+    }
+
+.dppElement.open > .dppOpenElement > .dppCollectionSwitch::after {
+    transform: rotate(225deg);
+    top: 12px;
+}
+
+
+.dppElementTableHead {
+    font-weight: bold;
+    border-color: #CBCBCB;
+}
+
+
+/* Collections in collection */
+.dppElementsWrapper > .dppElements .dppElements .dppOpenElement {
+    flex-direction: row-reverse;
+    justify-content: left;
+}
+
+
+
+.dppElementsWrapper > .dppElements .dppElements .dppCollIcon {
+    display: none;
+}
+
+.dppElementsWrapper > .dppElements .dppElements .dppOpenElement > .dppElementName {
+    width: unset;
+}
+
+.dppElementsWrapper > .dppElements .dppElements .dppElements {
+    width: 100%;
+}
+
+
+
+
+@media (max-width: 1024px) {
+    .dppElement.isCollection > .dppElements {
+        width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    .dppOpenElement {
+        padding-right: 0;
+    }
+}
+
+@media (max-width: 600px) {
+    .dppElements {
+        padding-left: 15px;
+    }
+
+    .dppElementTableHead {
+        display: none;
+    }
+}
